@@ -60,15 +60,38 @@ case $REPLY in
         ;;
     2)
         echo -e "${GREEN}🔧 systemdサービスとして登録します...${NC}"
-        ./run.sh  # まずビルド
+        # まずビルドのみ実行（バックグラウンドで実行を避ける）
+        echo -e "${YELLOW}📦 依存関係をインストールしてビルド中...${NC}"
+        # run.shの内容からビルド部分のみ抽出して実行
+        
+        # OS検出
+        if command -v apt-get >/dev/null 2>&1; then
+            sudo apt update
+            sudo apt install -y libpcap-dev build-essential curl
+        elif command -v yum >/dev/null 2>&1; then
+            sudo yum groupinstall -y "Development Tools"
+            sudo yum install -y libpcap-devel curl
+        fi
+        
+        # Rustチェック
+        if ! command -v cargo >/dev/null 2>&1; then
+            echo -e "${YELLOW}🦀 Rustをインストール中...${NC}"
+            curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+            source ~/.cargo/env
+            export PATH="$HOME/.cargo/bin:$PATH"
+        fi
+        
+        # ビルド
+        echo -e "${YELLOW}🔨 プロジェクトをビルド中...${NC}"
+        cargo build --release
+        
         if [ $? -eq 0 ]; then
-            # ビルドが成功したら Ctrl+C でプロセスを終了してからサービス登録
-            echo ""
-            echo -e "${YELLOW}⚠️  ビルドが完了しました。アプリケーションが起動していますが、${NC}"
-            echo -e "${YELLOW}   systemdサービスとして登録するため、Ctrl+C で一度終了してください。${NC}"
-            echo ""
-            read -p "Enterキーを押してsystemdサービスセットアップを続行..."
+            echo -e "${GREEN}✅ ビルド完了${NC}"
+            echo -e "${YELLOW}🔧 systemdサービスを登録中...${NC}"
             ./setup-systemd.sh
+        else
+            echo -e "${RED}❌ ビルドに失敗しました${NC}"
+            exit 1
         fi
         ;;
     *)
