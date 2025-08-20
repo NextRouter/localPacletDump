@@ -69,7 +69,7 @@ create_service_file() {
     sudo tee "$SERVICE_FILE" > /dev/null <<EOF
 [Unit]
 Description=Local Packet Dump Network Monitor
-Documentation=https://github.com/NextRouter/localPacletDump
+Documentation=https://github.com/NextRouter/localPacletDump eth2
 After=network.target
 Wants=network.target
 
