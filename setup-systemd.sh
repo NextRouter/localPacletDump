@@ -88,7 +88,7 @@ SyslogIdentifier=localpacketdump
 # セキュリティ設定
 NoNewPrivileges=true
 ProtectSystem=strict
-ProtectHome=true
+# ProtectHome=true
 ReadWritePaths=/tmp
 CapabilityBoundingSet=CAP_NET_RAW CAP_NET_ADMIN
 AmbientCapabilities=CAP_NET_RAW CAP_NET_ADMIN
