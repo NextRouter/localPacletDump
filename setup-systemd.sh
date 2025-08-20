@@ -1,4 +1,4 @@
-#!/bin/bash
+ #!/bin/bash
 
 # Local Packet Dump - systemdサービス自動セットアップスクリプト
 set -e
@@ -69,7 +69,7 @@ create_service_file() {
     sudo tee "$SERVICE_FILE" > /dev/null <<EOF
 [Unit]
 Description=Local Packet Dump Network Monitor
-Documentation=https://github.com/NextRouter/localPacletDump eth2
+Documentation=https://github.com/NextRouter/localPacletDump
 After=network.target
 Wants=network.target
 
@@ -77,7 +77,7 @@ Wants=network.target
 Type=simple
 User=root
 Group=root
-ExecStart=$BINARY_PATH
+ExecStart=$BINARY_PATH eth2
 WorkingDirectory=$CURRENT_DIR
 Restart=always
 RestartSec=10
