@@ -7,7 +7,7 @@
 ### ワンコマンドで実行
 
 ```bash
-curl -sSL https://raw.githubusercontent.com/NextRouter/localPacletDump/refs/heads/main/install.sh | bash
+curl -sSL https://raw.githubusercontent.com/NextRouter/localPacletDump/main/install.sh | bash
 ```
 
 ### 手動インストール
